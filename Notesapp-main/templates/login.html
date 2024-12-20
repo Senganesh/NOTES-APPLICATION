@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        :root {
+            --background-color-light: #f4f4f9;
+            --text-color-light: #333;
+            --card-color-light: white;
+            --button-color-light: #4a90e2;
+            --button-hover-light: #357abd;
+
+            --background-color-dark: #121212;
+            --text-color-dark: #e0e0e0;
+            --card-color-dark: #1e1e1e;
+            --button-color-dark: #6200ee;
+            --button-hover-dark: #3700b3;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color-light);
+            color: var(--text-color-light);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Navbar Styles */
+        .navbar {
+            background-color: var(--button-color-light);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .navbar .nav-buttons a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-buttons a:hover {
+            background-color: #2b6a9c;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-color-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: var(--button-color-light);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-light);
+        }
+        .navbar.dark-mode {
+            background-color: #333;
+        }
+
+        .navbar.dark-mode .nav-buttons a {
+            background-color: #555;
+        }
+
+        .navbar.dark-mode .nav-buttons a:hover {
+            background-color: #444;
+        }
+        .dark-mode {
+            --background-color-light: var(--background-color-dark);
+            --text-color-light: var(--text-color-dark);
+            --card-color-light: var(--card-color-dark);
+            --button-color-light: var(--button-color-dark);
+            --button-hover-light: var(--button-hover-dark);
+        }
+
+        #dark-mode-toggle {
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: var(--button-color-light);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        #dark-mode-toggle:hover {
+            background-color: var(--button-hover-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>NotesApp</h1>
+        <div class="nav-buttons">
+            <a href="/">Home</a>
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+            <button id="dark-mode-toggle">Toggle Dark Mode</button>
+        </div>
+    </div>
+    
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>

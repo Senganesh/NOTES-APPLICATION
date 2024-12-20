@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotesApp - Home</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #4a90e2;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .navbar .nav-buttons a {
+            text-decoration: none;
+            color: white;
+            background-color: #357abd;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-buttons a:hover {
+            background-color: #2b6a9c;
+        }
+
+        /* Main Content */
+        .content {
+            margin-top: 80px; /* Space for fixed navbar */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quote-container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 24px;
+            font-style: italic;
+            color: #555;
+            animation: fade-in 5s infinite;
+        }
+
+        @keyframes fade-in {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #2c2c2c;
+            color: #eee;
+        }
+
+        .navbar.dark-mode {
+            background-color: #333;
+        }
+
+        .navbar.dark-mode .nav-buttons a {
+            background-color: #555;
+        }
+
+        .navbar.dark-mode .nav-buttons a:hover {
+            background-color: #444;
+        }
+
+        .quote-container.dark-mode {
+            background-color: #3c3c3c;
+            border-color: #555;
+            color: #ddd;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>NotesApp</h1>
+        <div class="nav-buttons">
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+            <a href="/AdminLogin">Admin</a>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="quote-container" id="quote-container">
+            <!-- Quotes will be dynamically updated -->
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <script>
+        // Quotes for the carousel
+        const quotes = [
+            "“The palest ink is better than the best memory.” – Chinese Proverb",
+            "“Notes are the bridge between thoughts and actions.”",
+            "“Organization is the foundation of productivity.”",
+            "“A good note today is worth more than a brilliant idea tomorrow.”",
+            "“Your notes are your mind’s greatest ally.”"
+        ];
+
+        let currentQuoteIndex = 0;
+        const quoteContainer = document.getElementById('quote-container');
+
+        function updateQuote() {
+            quoteContainer.textContent = quotes[currentQuoteIndex];
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+        }
+
+        // Initialize the quote carousel
+        updateQuote();
+        setInterval(updateQuote, 5000);
+
+        // Dark Mode Toggle Functionality
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.navbar').classList.toggle('dark-mode');
+            document.querySelector('.quote-container').classList.toggle('dark-mode');
+
+            // Save dark mode preference in cookie
+            document.cookie = "dark_mode=" + (document.body.classList.contains('dark-mode') ? 'true' : 'false') + "; path=/";
+        }
+
+        // Apply dark mode on page load based on cookie
+        if (document.cookie.includes('dark_mode=true')) {
+            toggleDarkMode();
+        }
+    </script>
+</body>
+</html>

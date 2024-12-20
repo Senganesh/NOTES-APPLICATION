@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ username }}'s Profile</title>
+    <style>
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #2c2c2c;
+            color: #dcdcdc;
+        }
+
+        h1, h2 {
+            color: #4a90e2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4a90e2;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #357abd;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .container.dark-mode {
+            background-color: #3c3c3c;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .notes-list {
+            list-style: none;
+            margin-top: 20px;
+            padding: 0;
+        }
+
+        .note-item {
+            background: #f4f4f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .note-item.dark-mode {
+            background-color: #555;
+        }
+
+        .note-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .note-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-edit {
+            background-color: #4a90e2;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #357abd;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .add-note-btn, .logout-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-note-btn:hover, .logout-btn:hover {
+            background-color: #357abd;
+        }
+
+        .dark-mode-toggle {
+            background-color: #333;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #444;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Username and Dark Mode Toggle -->
+        <div class="header">
+            <h1>Welcome, {{ username }}!</h1>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Toggle Dark Mode</button>
+        </div>
+
+        <h2>Your Notes</h2>
+
+        <a href="{{ url_for('add_note') }}" class="add-note-btn" aria-label="Add New Note">Add New Note</a>
+        <a href="{{ url_for('logout') }}" class="logout-btn" aria-label="Logout">Logout</a>
+        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" style="display: inline-block;">
+            <label for="file-upload" class="add-note-btn" style="cursor: pointer;">Upload File</label>
+            <input id="file-upload" type="file" name="file" accept=".txt,.pdf,.doc,.docx" style="display: none;" onchange="this.form.submit()" aria-label="Upload File">
+        </form>
+        <ul class="notes-list">
+            {% for note in notes %}
+            <li class="note-item {% if request.cookies.get('dark_mode') == 'true' %}dark-mode{% endif %}">
+                <strong>{{ note.title }}</strong><br>
+                <p>{{ note.content }}</p>
+                <div class="note-actions">
+                    <a href="{{ url_for('edit_note', note_id=note.id) }}" class="btn btn-edit" aria-label="Edit Note">Edit</a>
+                    <form action="{{ url_for('delete_note', note_id=note.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-delete" aria-label="Delete Note">Delete</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <p>You have no notes yet. Start adding some!</p>
+            {% endfor %}
+        </ul>
+        <h2>Your Uploaded Files</h2>
+        <ul class="notes-list">
+            {% for file in files %}
+            <li class="note-item {% if request.cookies.get('dark_mode') == 'true' %}dark-mode{% endif %}">
+                <strong>{{ file }}</strong><br>
+                
+                <form action="{{ url_for('delete_file', filename=file) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-delete" aria-label="Delete File">Delete</button>
+                </form>
+            </li>
+            {% else %}
+            <p>You have no uploaded files yet. Start uploading some!</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        // Dark Mode Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.cookie.includes('dark_mode=true')) {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.container').classList.add('dark-mode');
+                document.querySelectorAll('.note-item').forEach(item => item.classList.add('dark-mode'));
+            }
+        });
+
+        // Dark Mode Toggle Functionality
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.container').classList.toggle('dark-mode');
+            document.querySelectorAll('.note-item').forEach(item => item.classList.toggle('dark-mode'));
+            document.cookie = "dark_mode=" + (document.body.classList.contains('dark-mode') ? 'true' : 'false') + "; path=/";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        :root {
+            --background-color-light: #f4f4f9;
+            --text-color-light: #333;
+            --card-color-light: white;
+            --navbar-color-light: #4a90e2;
+            --button-color-light: #4a90e2;
+            --button-hover-light: #357abd;
+
+            --background-color-dark: #121212;
+            --text-color-dark: #e0e0e0;
+            --card-color-dark: #1e1e1e;
+            --navbar-color-dark: #333;
+            --button-color-dark: #6200ee;
+            --button-hover-dark: #3700b3;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color-light);
+            color: var(--text-color-light);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            width: 98%;
+            background-color: var(--navbar-color-light);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: absolute;
+            top: 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a {
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .navbar h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-color-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: var(--button-color-light);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-light);
+        }
+
+        .dark-mode {
+            --background-color-light: var(--background-color-dark);
+            --text-color-light: var(--text-color-dark);
+            --card-color-light: var(--card-color-dark);
+            --navbar-color-light: var(--navbar-color-dark);
+            --button-color-light: var(--button-color-dark);
+            --button-hover-light: var(--button-hover-dark);
+        }
+
+        #dark-mode-toggle {
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            background-color: var(--button-color-light);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #dark-mode-toggle:hover {
+            background-color: var(--button-hover-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>NotesApp</h1>
+        <div>
+            <a href="/AdminLogin">Login</a>
+            <a href="/">Home</a>
+            <button id="dark-mode-toggle">Toggle Dark Mode</button>
+        </div>
+    </div>
+
+    <!-- Register Form -->
+    <div class="register-container">
+        <h2>Create Your Account</h2>
+        <form action="/AdminRegister" method="POST">
+            <input type="text" name="username" placeholder="Enter your username" required>
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <input type="hidden" name="is_admin" value="True">
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
